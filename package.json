@@ -9,6 +9,7 @@
   "author": "Ana-Gloria-Alex",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "telegraf": "^3.27.1"
   }
 }
