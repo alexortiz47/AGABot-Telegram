@@ -1,0 +1,14 @@
+{
+  "name": "telgrambot",
+  "version": "1.0.0",
+  "description": "AGABot Telegram",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ana-Gloria-Alex",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
