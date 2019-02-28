@@ -29,12 +29,18 @@ bot.command('create', (ctx) => {
 bot.command('whereami', (ctx) => {
     let msg = ctx.message.text.split(/\s(.+)/)[1] // Esto saca todo menos la primera palabra del texto (/wherami)
 
-        let res = request('GET', `https://geocode.xyz/${msg}?json=1&auth=779248831305544628193x1897`)
+        let res = request('GET', `https://geocode.xyz/${msg.toLowerCase()}?json=1&auth=779248831305544628193x1897`)
 
         if(JSON.parse(res.getBody('utf8')).error){
             return ctx.replyWithAnimation('https://media1.tenor.com/images/84e36470c3e534a5e71c208cd872d177/tenor.gif?itemid=6108221'), ctx.reply('Escribe más despacito...')
         }else{
-            return ctx.reply(`Longitud: ${JSON.parse(res.getBody('utf8')).longt}°\n\nLatitud: ${JSON.parse(res.getBody('utf8')).latt}°`)
+            // return ctx.reply(`Longitud: ${JSON.parse(res.getBody('utf8')).longt}°\n\nLatitud: ${JSON.parse(res.getBody('utf8')).latt}°`)
+            let longitud = JSON.parse(res.getBody('utf8')).longt
+            let latitud = JSON.parse(res.getBody('utf8')).latt
+
+            return ctx.replyWithPhoto(`https://maps.googleapis.com/maps/api/staticmap?center=${latitud},${longitud}&zoom=15&size=600x300&maptype=roadmap&markers=color:blue%7C${latitud},${longitud}&key=AIzaSyDL6bCkarkfr91Sr_kZgdF9WdbjVRzXI0g`)
+
+            
         }
 
 })
