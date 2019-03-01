@@ -10,6 +10,13 @@ const BOT_TOKEN = '691634425:AAHD2vJ0AjCfYs526Nb7jRz1QrUyb7Kft7E'
 // Aquí generamos un nuevo bot (objeto Telegraf) con el token que nos da bot_father
 const bot = new Telegraf(BOT_TOKEN)
 
+expressApp.use(bot.webhookCallback('/secret-path'))
+bot.telegram.setWebhook('https://33c01fd1.ngrok.io/secret-path')
+
+expressApp.get('/tiempo', (req, res) => {
+    
+})
+
 // Le generamos los comandos que queramos. Hay que poner /hello
 bot.command('hello', (ctx) => {
     let nombre = ctx.message.from.first_name // Esto saca el nombre del usuario de la cuenta telegram desde donde se interactua con el bot
@@ -58,12 +65,10 @@ bot.command('weather', (ctx) => {
     
 })
 
-expressApp.use(bot.webhookCallback('/secret-path'))
-bot.telegram.setWebhook('https://33c01fd1.ngrok.io/secret-path')
-
-expressApp.get('/tiempo', (req, res) => {
-    
+bot.on('text', (ctx) => {
+    ctx.reply(ctx.message)
 })
+
 
 expressApp.listen(3000, () => {
   console.log('Example app listening on port 3000!')
