@@ -1,6 +1,7 @@
 const Telegraf = require('telegraf')
 const express = require('express')
 const request = require('sync-request');
+const googleTTS = require('google-tts-api')
 
 const expressApp = express()
 let foto = 'https://drive.google.com/file/d/12wM69AkcMsofkIuXk_vZ_8h8VyPMD7lb/view?usp=sharing'
@@ -14,7 +15,7 @@ const dialog = require('./dialog')
 const bot = new Telegraf(BOT_TOKEN)
 
 expressApp.use(bot.webhookCallback('/secret-path'))
-bot.telegram.setWebhook('https://33c01fd1.ngrok.io/secret-path')
+bot.telegram.setWebhook('https://aganeobot.herokuapp.com/secret-path')
 
 expressApp.get('/tiempo', (req, res) => {
     
@@ -77,7 +78,10 @@ bot.on('text', (ctx) => {
     nlu(ctx.message)
         .then(dialog) // solo dialog, porque es la DEFINICION de la funcion que tenemos en dialog.js, porque then espera una funcion anónima. El .then, pertenece al nlu. El parámetro del then es el mismo que el del resolve
         .then((response) => {
-            bot.telegram.sendMessage(ctx.from.id, response)
+            googleTTS(response, 'es-ES', 3).then((url) => {
+                bot.telegram.sendAudio(ctx.from.id, url)
+            })
+            // bot.telegram.sendMessage(ctx.from.id, response)
         })
 })
 
