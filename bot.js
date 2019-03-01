@@ -88,14 +88,14 @@ bot.on('text', (ctx) => {
         })
 })
 
-expressApp.post('/agabot', (req, res) => {
-    let msg = req.body.mensaje
-    nlu({ text: msg })
-        .then(dialog)
-        .then((response) => {
-            res.json({mensaje: response})
-        })
-})
+// expressApp.post('/agabot', (req, res) => {
+//     let msg = req.body.mensaje
+//     nlu({ text: msg })
+//         .then(dialog)
+//         .then((response) => {
+//             res.json({mensaje: response})
+//         })
+// })
 
 expressApp.listen(process.env.PORT || 3000, () => {
   console.log('Example app listening on port 3000!')
