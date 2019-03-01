@@ -51,7 +51,7 @@ bot.command('weather', (ctx) => {
     try{
         let res = request('GET', `http://api.openweathermap.org/data/2.5/weather?q=${msg}&units=metric&APPID=167c7dd8e5dbfe65b6d448c20d4ef0e0`)
 
-        return ctx.reply(`🌡Temperatura actual: ${JSON.parse(res.getBody('utf8')).main.temp} ℃\n\n🌡Temperatura mínima: ${JSON.parse(res.getBody('utf8')).main.temp_min} ℃\n\n🌡Temperatura máxima: ${JSON.parse(res.getBody('utf8')).main.temp_max} ℃`)
+        return ctx.reply(`🌡Temperatura actual: ${JSON.parse(res.getBody('utf8')).main.temp} ℃\n\n🌡Mínimas de unos: ${JSON.parse(res.getBody('utf8')).main.temp_min} ℃\n\n🌡Máximas de unos: ${JSON.parse(res.getBody('utf8')).main.temp_max} ℃`)
     }catch(err){
         return ctx.replyWithAnimation('https://media1.tenor.com/images/ff7257ce7e22bb5e17eabda8123fb70e/tenor.gif?itemid=11019924'), ctx.reply('Anda anda, revisa bien la ciudad que has escrito...')
     }
