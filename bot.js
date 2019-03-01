@@ -4,6 +4,9 @@ const request = require('sync-request');
 const googleTTS = require('google-tts-api')
 
 const expressApp = express()
+expressApp.use(express.json());
+expressApp.use(express.urlencoded({ extended: false }));
+
 let foto = 'https://drive.google.com/file/d/12wM69AkcMsofkIuXk_vZ_8h8VyPMD7lb/view?usp=sharing'
 
 const BOT_TOKEN = '691634425:AAHD2vJ0AjCfYs526Nb7jRz1QrUyb7Kft7E'
@@ -82,6 +85,15 @@ bot.on('text', (ctx) => {
                 bot.telegram.sendAudio(ctx.from.id, url)
             })
             // bot.telegram.sendMessage(ctx.from.id, response)
+        })
+})
+
+expressApp.post('/agabot', (req, res) => {
+    let msg = req.body.mensaje
+    nlu({ text: msg })
+        .then(dialog)
+        .then((response) => {
+            res.json({mensaje: response})
         })
 })
 
