@@ -38,7 +38,7 @@ bot.command('whereami', (ctx) => {
             let longitud = JSON.parse(res.getBody('utf8')).longt
             let latitud = JSON.parse(res.getBody('utf8')).latt
 
-            return ctx.replyWithPhoto(`https://maps.googleapis.com/maps/api/staticmap?center=${latitud},${longitud}&zoom=15&size=600x300&maptype=roadmap&markers=color:blue%7C${latitud},${longitud}&key=AIzaSyDL6bCkarkfr91Sr_kZgdF9WdbjVRzXI0g`)
+            return ctx.replyWithPhoto(`https://maps.googleapis.com/maps/api/staticmap?center=${latitud},${longitud}&zoom=15&size=600x300&maptype=roadmap&markers=color:red%7C${latitud},${longitud}&key=AIzaSyDL6bCkarkfr91Sr_kZgdF9WdbjVRzXI0g`)
 
             
         }
@@ -59,18 +59,12 @@ bot.command('weather', (ctx) => {
 })
 
 expressApp.use(bot.webhookCallback('/secret-path'))
-bot.telegram.setWebhook('https://0b94bf18.ngrok.io/secret-path')
+bot.telegram.setWebhook('https://33c01fd1.ngrok.io/secret-path')
 
 expressApp.get('/tiempo', (req, res) => {
     
 })
 
-
-
-
-
 expressApp.listen(3000, () => {
   console.log('Example app listening on port 3000!')
 })
-
-
