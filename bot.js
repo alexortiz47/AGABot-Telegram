@@ -24,6 +24,10 @@ expressApp.get('/tiempo', (req, res) => {
     
 })
 
+expressApp.post('/secret-path', (req, res) =>{
+    res.send('TEST')
+})
+
 // Le generamos los comandos que queramos
 bot.command('start', (ctx) => {
     let nombre = ctx.message.from.first_name // Esto saca el nombre del usuario de la cuenta telegram desde donde se interactua con el bot
