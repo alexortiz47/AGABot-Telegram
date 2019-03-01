@@ -7,6 +7,9 @@ let foto = 'https://drive.google.com/file/d/12wM69AkcMsofkIuXk_vZ_8h8VyPMD7lb/vi
 
 const BOT_TOKEN = '691634425:AAHD2vJ0AjCfYs526Nb7jRz1QrUyb7Kft7E'
 
+const nlu = require('./nlu')
+const dialog = require('./dialog')
+
 // Aquí generamos un nuevo bot (objeto Telegraf) con el token que nos da bot_father
 const bot = new Telegraf(BOT_TOKEN)
 
@@ -17,7 +20,12 @@ expressApp.get('/tiempo', (req, res) => {
     
 })
 
-// Le generamos los comandos que queramos. Hay que poner /hello
+// Le generamos los comandos que queramos
+bot.command('start', (ctx) => {
+    let nombre = ctx.message.from.first_name // Esto saca el nombre del usuario de la cuenta telegram desde donde se interactua con el bot
+    
+    return ctx.reply(`¡Hola ${nombre}! Soy AGABot 🤖\n\n¿En qué puedo ayudarte?\n\nPara obtener ayuda introduce /help`)
+})
 bot.command('hello', (ctx) => {
     let nombre = ctx.message.from.first_name // Esto saca el nombre del usuario de la cuenta telegram desde donde se interactua con el bot
     
@@ -58,7 +66,7 @@ bot.command('weather', (ctx) => {
     try{
         let res = request('GET', `http://api.openweathermap.org/data/2.5/weather?q=${msg}&units=metric&APPID=167c7dd8e5dbfe65b6d448c20d4ef0e0`)
 
-        return ctx.reply(`🌡Temperatura actual: ${JSON.parse(res.getBody('utf8')).main.temp} ℃\n\n🌡Mínimas de unos: ${JSON.parse(res.getBody('utf8')).main.temp_min} ℃\n\n🌡Máximas de unos: ${JSON.parse(res.getBody('utf8')).main.temp_max} ℃`)
+        return ctx.reply(`Temperatura actual: ${JSON.parse(res.getBody('utf8')).main.temp} ℃ 🌡\n\nMínimas de unos: ${JSON.parse(res.getBody('utf8')).main.temp_min} ℃ 🌡\n\nMáximas de unos: ${JSON.parse(res.getBody('utf8')).main.temp_max} ℃ 🌡`)
     }catch(err){
         return ctx.replyWithAnimation('https://media1.tenor.com/images/ff7257ce7e22bb5e17eabda8123fb70e/tenor.gif?itemid=11019924'), ctx.reply('Anda anda, revisa bien la ciudad que has escrito...')
     }
@@ -66,9 +74,12 @@ bot.command('weather', (ctx) => {
 })
 
 bot.on('text', (ctx) => {
-    ctx.reply(ctx.message)
+    nlu(ctx.message)
+        .then(dialog) // solo dialog, porque es la DEFINICION de la funcion que tenemos en dialog.js, porque then espera una funcion anónima. El .then, pertenece al nlu. El parámetro del then es el mismo que el del resolve
+        .then((response) => {
+            bot.telegram.sendMessage(ctx.from.id, response)
+        })
 })
-
 
 expressApp.listen(3000, () => {
   console.log('Example app listening on port 3000!')
