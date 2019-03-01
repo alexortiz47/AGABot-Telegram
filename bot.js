@@ -4,8 +4,8 @@ const request = require('sync-request');
 const googleTTS = require('google-tts-api')
 
 const expressApp = express()
-expressApp.use(express.json());
-expressApp.use(express.urlencoded({ extended: false }));
+// expressApp.use(express.json());
+// expressApp.use(express.urlencoded({ extended: false }));
 
 let foto = 'https://drive.google.com/file/d/12wM69AkcMsofkIuXk_vZ_8h8VyPMD7lb/view?usp=sharing'
 
