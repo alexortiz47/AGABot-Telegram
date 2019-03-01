@@ -85,6 +85,6 @@ bot.on('text', (ctx) => {
         })
 })
 
-expressApp.listen(3000, () => {
+expressApp.listen(process.env.PORT || 3000, () => {
   console.log('Example app listening on port 3000!')
 })
